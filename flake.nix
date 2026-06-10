@@ -1,7 +1,15 @@
 {
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     typix = {
       url = "github:loqusion/typix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,7 +20,9 @@
     {
       self,
       flake-utils,
+      git-hooks,
       nixpkgs,
+      treefmt-nix,
       typix,
       ...
     }:
@@ -137,12 +147,25 @@
           };
         };
 
-        checks = lib.mapAttrs' (name: deck: lib.nameValuePair "build-${name}" deck.drv) decks;
+        formatter = (treefmt-nix.lib.evalModule pkgs ./nix/treefmt.nix).config.build.wrapper;
 
-        devShells.default = typixLib.devShell {
-          inherit (commonArgs) fontPaths virtualPaths;
-          packages = map (name: decks.${name}.watch-script) deckNames;
+        checks = (lib.mapAttrs' (name: deck: lib.nameValuePair "build-${name}" deck.drv) decks) // {
+          pre-commit = git-hooks.lib.${pkgs.stdenv.hostPlatform.system}.run (
+            import ./nix/pre-commit.nix {
+              inherit self pkgs;
+            }
+          );
         };
+
+        devShells.default =
+          let
+            inherit (self.checks.${system}.pre-commit) shellHook enabledPackages;
+          in
+          typixLib.devShell {
+            inherit shellHook;
+            inherit (commonArgs) fontPaths virtualPaths;
+            packages = (map (name: decks.${name}.watch-script) deckNames) ++ enabledPackages;
+          };
       }
     );
 }
