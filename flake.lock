@@ -93,11 +93,46 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1780930886,
+        "narHash": "sha256-rppURzHviaQN131F+nLiLdGfcb0uCd9gGP0E5+iw9MI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "8c3cede7ddc26bd659d2d383b5610efbd2c7a16e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nur-packages": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1781052398,
+        "narHash": "sha256-d+KDqtcZXAZQV3jMQtu1nGl+whTALmPbwvOhdxVohlI=",
+        "owner": "airRnot1106",
+        "repo": "nur-packages",
+        "rev": "4de7f349b92b69a8b7c324415e9852017ad2bd94",
+        "type": "github"
+      },
+      "original": {
+        "owner": "airRnot1106",
+        "repo": "nur-packages",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
         "git-hooks": "git-hooks",
         "nixpkgs": "nixpkgs",
+        "nur-packages": "nur-packages",
         "treefmt-nix": "treefmt-nix",
         "typix": "typix"
       }

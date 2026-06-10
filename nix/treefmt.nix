@@ -1,5 +1,8 @@
 {
   projectRootFile = "flake.nix";
+  settings.global.excludes = [
+    "*-lock.json"
+  ];
   programs = {
     nixfmt.enable = true;
     oxfmt = {

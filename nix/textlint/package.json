@@ -1,0 +1,9 @@
+{
+  "name": "slides-textlint-plugins",
+  "version": "0.0.0",
+  "private": true,
+  "description": "textlint plugins for this repo, packaged for Nix (textlint itself comes from nixpkgs)",
+  "dependencies": {
+    "textlint-plugin-typst": "1.4.2"
+  }
+}

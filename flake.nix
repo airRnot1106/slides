@@ -6,6 +6,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nur-packages.url = "github:airRnot1106/nur-packages";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,6 +23,7 @@
       flake-utils,
       git-hooks,
       nixpkgs,
+      nur-packages,
       treefmt-nix,
       typix,
       ...
@@ -29,7 +31,10 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ nur-packages.overlays.default ];
+        };
         inherit (pkgs) lib;
 
         typixLib = typix.lib.${system};
