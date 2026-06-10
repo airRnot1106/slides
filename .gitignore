@@ -1,0 +1,10 @@
+.direnv
+result
+result-*
+
+*.log
+
+.env
+
+*.pdf
+!slides/**/dist/*.pdf
