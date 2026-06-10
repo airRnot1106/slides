@@ -25,6 +25,7 @@ in
       entry = "${getExe package} run -min-age 7 -fix=false -verify";
       files = "^\.github/workflows/.*\.(yml|yaml)$";
       pass_filenames = false;
+      stages = [ "pre-push" ];
     };
     treefmt = {
       enable = true;
