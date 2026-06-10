@@ -1,5 +1,9 @@
 {
   inputs = {
+    agent-skills = {
+      url = "path:./nix/agent-skills";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-utils.url = "github:numtide/flake-utils";
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
@@ -20,6 +24,7 @@
   outputs =
     {
       self,
+      agent-skills,
       flake-utils,
       git-hooks,
       nixpkgs,
@@ -169,6 +174,7 @@
           typixLib.devShell {
             inherit shellHook;
             inherit (commonArgs) fontPaths virtualPaths;
+            inputsFrom = [ agent-skills.devShells.${system}.default ];
             packages = (map (name: decks.${name}.watch-script) deckNames) ++ enabledPackages;
           };
       }
