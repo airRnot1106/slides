@@ -34,7 +34,7 @@ in
     textlint = rec {
       enable = true;
       package = import ./textlint { inherit pkgs; };
-      entry = "${package}/bin/textlint --fix";
+      entry = "${package}/bin/textlint";
       files = "\.(md|typ)$";
       pass_filenames = true;
     };

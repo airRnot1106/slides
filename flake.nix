@@ -44,6 +44,17 @@
 
         typixLib = typix.lib.${system};
 
+        # GLib.idle_add rejects keyword args, so pympress's `idle_add(..., unpause=False)`
+        # raises TypeError on newer PyGObject. Wrap it in a lambda so idle_add gets a
+        # no-arg callable. --replace-fail fails the build if upstream changes this line.
+        pympress = pkgs.pympress.overrideAttrs (old: {
+          postPatch = (old.postPatch or "") + ''
+            substituteInPlace pympress/editable_label.py \
+              --replace-fail "GLib.idle_add(self.page_change, unpause=False)" \
+                "GLib.idle_add(lambda: self.page_change(unpause=False))"
+          '';
+        });
+
         commonArgs = {
           typstSource = "main.typ";
 
@@ -53,6 +64,10 @@
           ];
 
           virtualPaths = [
+            {
+              src = ./assets;
+              dest = "assets";
+            }
           ];
         };
 
@@ -89,25 +104,53 @@
         mkDeck =
           name:
           let
-            src = typixLib.cleanTypstSource (slidesDir + "/${name}");
+            src = typixLib.cleanTypstSource ./.;
+            typstSource = "slides/${name}/${commonArgs.typstSource}";
             pdfOutput = "slides/${name}/dist/${name}.pdf";
-          in
-          {
-            drv = typixLib.buildTypstProject (buildArgs // { inherit src; });
+            deckArgs = {
+              inherit src typstSource;
+              typstOpts = {
+                root = ".";
+              };
+            };
 
-            build-script = typixLib.buildTypstProjectLocal (
+            handout-build = typixLib.buildTypstProjectLocal (
               buildArgs
+              // deckArgs
               // {
-                inherit src;
                 typstOutput = pdfOutput;
-                scriptName = "build-${name}";
+                scriptName = "build-${name}-handout";
               }
             );
 
+            presentation-build = typixLib.buildTypstProjectLocal (
+              buildArgs
+              // deckArgs
+              // {
+                typstOpts = {
+                  root = ".";
+                  input = "presentation=true";
+                };
+                typstOutput = "slides/${name}/dist/${name}-presentation.pdf";
+                scriptName = "build-${name}-presentation";
+              }
+            );
+          in
+          {
+            drv = typixLib.buildTypstProject (buildArgs // deckArgs);
+
+            build-script = pkgs.writeShellApplication {
+              name = "build-${name}";
+              text = ''
+                ${lib.getExe handout-build}
+                ${lib.getExe presentation-build}
+              '';
+            };
+
             watch-script = typixLib.watchTypstProject (
               commonArgs
+              // (builtins.removeAttrs deckArgs [ "src" ])
               // {
-                typstSource = "slides/${name}/${commonArgs.typstSource}";
                 typstOutput = pdfOutput;
                 scriptName = "watch-${name}";
               }
@@ -119,18 +162,17 @@
         mkSelector =
           {
             name,
-            script,
+            runtimeInputs ? [ ],
+            run,
           }:
           pkgs.writeShellApplication {
             inherit name;
-            runtimeInputs = [ pkgs.fzf ];
+            runtimeInputs = [ pkgs.fzf ] ++ runtimeInputs;
             text = ''
               deck=$(printf '%s\n' ${lib.escapeShellArgs deckNames} \
                 | fzf --prompt='${name}> ' --select-1 --exit-0) || exit 1
               case "$deck" in
-              ${lib.concatMapStringsSep "\n" (
-                n: "${n}) exec ${lib.getExe decks.${n}.${script}} \"$@\" ;;"
-              ) deckNames}
+              ${lib.concatMapStringsSep "\n" (n: "${n}) ${run n} ;;") deckNames}
               *) echo "no slide selected" >&2; exit 1 ;;
               esac
             '';
@@ -138,11 +180,18 @@
 
         build-selector = mkSelector {
           name = "build";
-          script = "build-script";
+          run = n: ''exec ${lib.getExe decks.${n}.build-script} "$@"'';
         };
+
         watch-selector = mkSelector {
           name = "watch";
-          script = "watch-script";
+          run = n: ''exec ${lib.getExe decks.${n}.watch-script} "$@"'';
+        };
+
+        present-selector = mkSelector {
+          name = "present";
+          runtimeInputs = [ pympress ];
+          run = n: ''exec pympress "slides/${n}/dist/${n}-presentation.pdf"'';
         };
       in
       {
@@ -154,6 +203,9 @@
           };
           watch = flake-utils.lib.mkApp { drv = watch-selector; } // {
             meta.description = "Select a slide and watch it for changes";
+          };
+          present = flake-utils.lib.mkApp { drv = present-selector; } // {
+            meta.description = "Select a slide and present it with pympress";
           };
         };
 
@@ -175,7 +227,14 @@
             inherit shellHook;
             inherit (commonArgs) fontPaths virtualPaths;
             inputsFrom = [ agent-skills.devShells.${system}.default ];
-            packages = (map (name: decks.${name}.watch-script) deckNames) ++ enabledPackages;
+            packages =
+              with pkgs;
+              [
+                pympress
+                tinymist
+              ]
+              ++ (map (name: decks.${name}.watch-script) deckNames)
+              ++ enabledPackages;
           };
       }
     );
