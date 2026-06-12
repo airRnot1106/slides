@@ -59,8 +59,9 @@
           typstSource = "main.typ";
 
           fontPaths = [
-            "${pkgs.noto-fonts-cjk-sans-static}/share/fonts/opentype/noto-cjk"
+            "${pkgs.font-awesome}/share/fonts/opentype"
             "${pkgs.hackgen-nf-font}/share/fonts/hackgen-nf"
+            "${pkgs.noto-fonts-cjk-sans-static}/share/fonts/opentype/noto-cjk"
           ];
 
           virtualPaths = [
@@ -72,6 +73,11 @@
         };
 
         unstable_typstPackages = [
+          {
+            name = "fontawesome";
+            version = "0.6.1";
+            hash = "sha256-wgHLmRlIp79JOsO1qimEdNlHKj+7ojShaYwUFxuWOB0=";
+          }
           {
             name = "rose-pine";
             version = "0.2.1";
