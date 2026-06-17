@@ -160,7 +160,7 @@
       init: (self: none, body) => {
         set text(
           size: 25pt,
-          font: "Noto Sans CJK JP",
+          font: "BIZ UDPGothic",
           lang: "ja",
           weight: "bold",
           fill: color-text,

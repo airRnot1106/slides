@@ -59,9 +59,9 @@
           typstSource = "main.typ";
 
           fontPaths = [
+            "${pkgs.biz-ud-gothic}/share/fonts/truetype"
             "${pkgs.font-awesome}/share/fonts/opentype"
             "${pkgs.hackgen-nf-font}/share/fonts/hackgen-nf"
-            "${pkgs.noto-fonts-cjk-sans-static}/share/fonts/opentype/noto-cjk"
           ];
 
           virtualPaths = [
