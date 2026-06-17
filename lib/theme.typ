@@ -84,10 +84,22 @@
 
 /// セクションスライド
 /// `= 見出し` ごとに自動で呼ばれる
-#let new-section-slide(config: (:), body) = centered-slide(config: config, [
-  #text(2.3em, weight: "bold", utils.display-current-heading(level: 1))
-  #body
-])
+/// ページ番号は振らない（カウンタを凍結しフッターも消す）
+#let new-section-slide(config: (:), body) = touying-slide-wrapper(self => {
+  let self = utils.merge-dicts(
+    self,
+    config-common(freeze-slide-counter: true),
+    config-page(footer: none),
+  )
+  touying-slide(
+    self: self,
+    config: config,
+    align(center + horizon, {
+      text(2.3em, weight: "bold", utils.display-current-heading(level: 1))
+      body
+    }),
+  )
+})
 
 /// 強調スライド
 /// 背景を反転させて1メッセージを大きく見せる
