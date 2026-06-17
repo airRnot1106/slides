@@ -240,9 +240,13 @@
             inherit (commonArgs) fontPaths virtualPaths;
             inputsFrom = [ agent-skills.devShells.${system}.default ];
             packages =
+              let
+                textlintWrapper = import ./nix/textlint { inherit pkgs; };
+              in
               with pkgs;
               [
                 pympress
+                textlintWrapper
                 tinymist
               ]
               ++ (map (name: decks.${name}.watch-script) deckNames)

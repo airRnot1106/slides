@@ -31,13 +31,6 @@ in
       enable = true;
       package = self.formatter.${pkgs.stdenv.hostPlatform.system};
     };
-    textlint = rec {
-      enable = true;
-      package = import ./textlint { inherit pkgs; };
-      entry = "${package}/bin/textlint";
-      files = "\.(md|typ)$";
-      pass_filenames = true;
-    };
     zizmor.enable = true;
   };
 }
