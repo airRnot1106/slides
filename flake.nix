@@ -118,6 +118,12 @@
               typstOpts = {
                 root = ".";
               };
+              virtualPaths =
+                commonArgs.virtualPaths
+                ++ lib.optional (builtins.pathExists (slidesDir + "/${name}/assets")) {
+                  src = slidesDir + "/${name}/assets";
+                  dest = "slides/${name}/assets";
+                };
             };
 
             handout-build = typixLib.buildTypstProjectLocal (
