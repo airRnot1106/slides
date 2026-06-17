@@ -1,3 +1,4 @@
+#import "@preview/touying:0.7.4": speaker-note
 #import "./color.typ": *
 #import "./helpers.typ": *
 
@@ -10,6 +11,7 @@
   icon: none,
   icon-width: 100%,
   item-spacing: auto,
+  notes: none,
 ) = {
   [== #title]
 
@@ -32,4 +34,5 @@
       circle-image(icon, width: icon-width)
     },
   )
+  if notes != none { speaker-note(notes) }
 }

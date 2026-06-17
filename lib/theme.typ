@@ -42,6 +42,7 @@
   author: none,
   date: none,
   venue: none,
+  notes: none,
 ) = touying-slide-wrapper(self => {
   let self = utils.merge-dicts(
     self,
@@ -51,30 +52,33 @@
   touying-slide(
     self: self,
     config: config,
-    framed(align(
-      center + horizon,
-      grid(
-        columns: 1,
-        align: center,
-        row-gutter: 1.2em,
-        ..(
-          (
-            if title != none { text(2.8em, title) },
-            if author != none {
-              text(0.6em, weight: "regular", fill: color-subtle, author)
-            },
-            if date != none or venue != none {
-              text(
-                0.8em,
-                weight: "regular",
-                fill: color-text,
-                (date, venue).filter(x => x != none).join(h(1em)),
-              )
-            },
-          ).filter(x => x != none)
+    {
+      framed(align(
+        center + horizon,
+        grid(
+          columns: 1,
+          align: center,
+          row-gutter: 1.2em,
+          ..(
+            (
+              if title != none { text(2.8em, title) },
+              if author != none {
+                text(0.6em, weight: "regular", fill: color-subtle, author)
+              },
+              if date != none or venue != none {
+                text(
+                  0.8em,
+                  weight: "regular",
+                  fill: color-text,
+                  (date, venue).filter(x => x != none).join(h(1em)),
+                )
+              },
+            ).filter(x => x != none)
+          ),
         ),
-      ),
-    )),
+      ))
+      if notes != none { speaker-note(notes) }
+    },
   )
 })
 
