@@ -161,7 +161,7 @@
 
             watch-script = typixLib.watchTypstProject (
               commonArgs
-              // (builtins.removeAttrs deckArgs [ "src" ])
+              // (removeAttrs deckArgs [ "src" ])
               // {
                 typstOutput = pdfOutput;
                 scriptName = "watch-${name}";
