@@ -2,6 +2,7 @@
   inputs = {
     agent-skills = {
       url = "path:./nix/agent-skills";
+      inputs.flake-utils.follows = "flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";

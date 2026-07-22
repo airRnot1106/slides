@@ -1,26 +1,6 @@
 {
   "nodes": {
-    "agent-skills": {
-      "inputs": {
-        "agent-skills": "agent-skills_2",
-        "cognitive-rhythm-writing": "cognitive-rhythm-writing",
-        "japanese-tech-writing": "japanese-tech-writing",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "typst-skills": "typst-skills"
-      },
-      "locked": {
-        "path": "./nix/agent-skills",
-        "type": "path"
-      },
-      "original": {
-        "path": "./nix/agent-skills",
-        "type": "path"
-      },
-      "parent": []
-    },
-    "agent-skills_2": {
+    "agenput-skills": {
       "inputs": {
         "nput": "nput"
       },
@@ -37,6 +17,29 @@
         "repo": "agenput-skills-nix",
         "type": "github"
       }
+    },
+    "agent-skills": {
+      "inputs": {
+        "agenput-skills": "agenput-skills",
+        "cognitive-rhythm-writing": "cognitive-rhythm-writing",
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "japanese-tech-writing": "japanese-tech-writing",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "typst-skills": "typst-skills"
+      },
+      "locked": {
+        "path": "./nix/agent-skills",
+        "type": "path"
+      },
+      "original": {
+        "path": "./nix/agent-skills",
+        "type": "path"
+      },
+      "parent": []
     },
     "cognitive-rhythm-writing": {
       "flake": false,
@@ -74,7 +77,7 @@
       "inputs": {
         "nixpkgs-lib": [
           "agent-skills",
-          "agent-skills",
+          "agenput-skills",
           "nput",
           "nixpkgs"
         ]
@@ -136,7 +139,7 @@
       "inputs": {
         "nixpkgs": [
           "agent-skills",
-          "agent-skills",
+          "agenput-skills",
           "nput",
           "nixpkgs"
         ]
@@ -159,7 +162,7 @@
       "inputs": {
         "nixpkgs": [
           "agent-skills",
-          "agent-skills",
+          "agenput-skills",
           "nput",
           "nixpkgs"
         ]
@@ -198,13 +201,13 @@
       "inputs": {
         "haumea": [
           "agent-skills",
-          "agent-skills",
+          "agenput-skills",
           "nput",
           "haumea"
         ],
         "nixpkgs": [
           "agent-skills",
-          "agent-skills",
+          "agenput-skills",
           "nput",
           "nixpkgs"
         ]
@@ -227,7 +230,7 @@
       "inputs": {
         "nixpkgs": [
           "agent-skills",
-          "agent-skills",
+          "agenput-skills",
           "nput",
           "nix-unit",
           "nixpkgs"
@@ -252,7 +255,7 @@
         "nix-github-actions": "nix-github-actions",
         "nixpkgs": [
           "agent-skills",
-          "agent-skills",
+          "agenput-skills",
           "nput",
           "nixpkgs"
         ],
@@ -392,7 +395,7 @@
       "inputs": {
         "nixpkgs": [
           "agent-skills",
-          "agent-skills",
+          "agenput-skills",
           "nput",
           "nix-unit",
           "nixpkgs"
@@ -416,7 +419,7 @@
       "inputs": {
         "nixpkgs": [
           "agent-skills",
-          "agent-skills",
+          "agenput-skills",
           "nput",
           "nixpkgs"
         ]
