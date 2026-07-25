@@ -26,7 +26,13 @@
 })
 
 /// 中央揃えスライド
+/// 見出しを持たないため、上マージンを本文用の 1.5em から下と同じ 8pt に揃え、
+/// コンテンツをページ中央に置く（既定の上下非対称マージンだと上に偏る）
 #let centered-slide(config: (:), ..args) = touying-slide-wrapper(self => {
+  let self = utils.merge-dicts(
+    self,
+    config-page(margin: (y: 8pt, x: 1.8em)),
+  )
   touying-slide(
     self: self,
     ..args.named(),
@@ -89,7 +95,7 @@
   let self = utils.merge-dicts(
     self,
     config-common(freeze-slide-counter: true),
-    config-page(footer: none),
+    config-page(footer: none, margin: (y: 8pt, x: 1.8em)),
   )
   touying-slide(
     self: self,
@@ -107,7 +113,7 @@
   self = utils.merge-dicts(
     self,
     config-common(freeze-slide-counter: true),
-    config-page(fill: color-pine, footer: none),
+    config-page(fill: color-pine, footer: none, margin: (y: 8pt, x: 1.8em)),
   )
   set text(fill: color-base, size: 1.5em)
   touying-slide(self: self, config: config, align(center + horizon, body))
