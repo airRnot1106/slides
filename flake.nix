@@ -193,12 +193,12 @@
 
         build-selector = mkSelector {
           name = "build";
-          run = n: ''exec ${lib.getExe decks.${n}.build-script} "$@"'';
+          run = n: ''exec nix run ".#build-${n}" -- "$@"'';
         };
 
         watch-selector = mkSelector {
           name = "watch";
-          run = n: ''exec ${lib.getExe decks.${n}.watch-script} "$@"'';
+          run = n: ''exec nix run ".#watch-${n}" -- "$@"'';
         };
 
         present-selector = mkSelector {
@@ -220,7 +220,20 @@
           present = flake-utils.lib.mkApp { drv = present-selector; } // {
             meta.description = "Select a slide and present it with pympress";
           };
-        };
+        }
+        # Per-deck apps the selectors dispatch to via `nix run .#build-<deck>`.
+        // lib.foldl' (
+          acc: name:
+          acc
+          // {
+            "build-${name}" = flake-utils.lib.mkApp { drv = decks.${name}.build-script; } // {
+              meta.description = "Build the ${name} slide";
+            };
+            "watch-${name}" = flake-utils.lib.mkApp { drv = decks.${name}.watch-script; } // {
+              meta.description = "Watch the ${name} slide for changes";
+            };
+          }
+        ) { } deckNames;
 
         formatter = (treefmt-nix.lib.evalModule pkgs ./nix/treefmt.nix).config.build.wrapper;
 
