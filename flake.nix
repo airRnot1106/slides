@@ -41,21 +41,6 @@
           inherit system;
           overlays = [
             nur-packages.overlays.default
-            # poppler's PopplerPage embeds a `std::mutex` but poppler_page_init is empty,
-            # so the GObject-zeroed instance leaves the mutex's pthread `sig` field at 0.
-            # Linux's PTHREAD_MUTEX_INITIALIZER is all-zeros so this works there, but on
-            # macOS the initializer is non-zero and macOS 26 rejects the zeroed mutex with
-            # EINVAL, aborting in poppler_page_render_full (`mutex lock failed`). Construct
-            # the mutex with placement new so it carries a valid signature.
-            (_final: prev: {
-              poppler = prev.poppler.overrideAttrs (old: {
-                postPatch = (old.postPatch or "") + ''
-                  substituteInPlace glib/poppler-page.cc \
-                    --replace-fail "static void poppler_page_init(PopplerPage * /*page*/) { }" \
-                      "static void poppler_page_init(PopplerPage *page) { new (&page->mutex) std::mutex(); }"
-                '';
-              });
-            })
           ];
         };
         inherit (pkgs) lib;
