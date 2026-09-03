@@ -109,15 +109,24 @@
 
 /// 強調スライド
 /// 背景を反転させて1メッセージを大きく見せる
-#let focus-slide(config: (:), body) = touying-slide-wrapper(self => {
-  self = utils.merge-dicts(
-    self,
-    config-common(freeze-slide-counter: true),
-    config-page(fill: color-pine, footer: none, margin: (y: 8pt, x: 1.8em)),
-  )
-  set text(fill: color-base, size: 1.5em)
-  touying-slide(self: self, config: config, align(center + horizon, body))
-})
+#let focus-slide(config: (:), notes: none, body) = touying-slide-wrapper(
+  self => {
+    self = utils.merge-dicts(
+      self,
+      config-common(freeze-slide-counter: true),
+      config-page(fill: color-pine, footer: none, margin: (y: 8pt, x: 1.8em)),
+    )
+    set text(fill: color-base, size: 1.5em)
+    touying-slide(
+      self: self,
+      config: config,
+      {
+        align(center + horizon, body)
+        if notes != none { speaker-note(notes) }
+      },
+    )
+  },
+)
 
 /// Rosé Pine Dawn Theme
 #let rose-pine-theme(
