@@ -465,11 +465,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792677896,
-        "narHash": "sha256-lHXVBRO2RHUgKB/M8tShYl78yxxydhdUDBSdkTeD0Dw=",
+        "lastModified": 1794064008,
+        "narHash": "sha256-y5wR8OjW6pCegtTWp2h9vshCYq/CuRXgLYjf4VCuZFs=",
         "owner": "loqusion",
         "repo": "typix",
-        "rev": "57e5555037f69e3e5c782125121bc6a27d9f53ff",
+        "rev": "6dd1a3b3f09c4f01fa1419aa3d55826c9a2ce4b0",
         "type": "github"
       },
       "original": {
