@@ -2,8 +2,16 @@
   inputs = {
     agent-skills = {
       url = "path:./nix/agent-skills";
+      inputs.agenput-skills.follows = "agenput-skills";
+      inputs.airrnot-skills.follows = "airrnot-skills";
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.typst-skills.follows = "typst-skills";
+    };
+    agenput-skills.url = "github:airRnot1106/agenput-skills-nix";
+    airrnot-skills = {
+      url = "github:airRnot1106/skills";
+      flake = false;
     };
     flake-utils.url = "github:numtide/flake-utils";
     git-hooks = {
@@ -19,6 +27,10 @@
     typix = {
       url = "github:loqusion/typix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    typst-skills = {
+      url = "github:apcamargo/typst-skills";
+      flake = false;
     };
   };
 
