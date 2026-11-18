@@ -8,8 +8,9 @@
   "rules": {
     "@textlint-ja/preset-ai-writing": true,
     "preset-ja-technical-writing": {
+      "ja-no-weak-phrase": false,
       "no-mix-dearu-desumasu": {
-        "preferInList": "ですます"
+        "preferInList": "である"
       },
       "ja-no-mixed-period": false,
       "no-exclamation-question-mark": false
