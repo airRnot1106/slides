@@ -352,11 +352,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1794357985,
-        "narHash": "sha256-9rA41MZMic0JLCqFx3w/CVXY6j30LCQldPR9fH14t0g=",
+        "lastModified": 1794720958,
+        "narHash": "sha256-JRgPJWMbJGcuRb+jI/htwUYaJ447+zWEQHfFJbNZtEg=",
         "owner": "airRnot1106",
         "repo": "nur-packages",
-        "rev": "130c39670ee135d5ad46c60448485ae7a5deb517",
+        "rev": "5670b52935c380847fe6808ffc4d9e008d53f375",
         "type": "github"
       },
       "original": {
