@@ -5,11 +5,11 @@
         "layat": "layat"
       },
       "locked": {
-        "lastModified": 1794733647,
-        "narHash": "sha256-FcmBu/qEXCXbEfEMQ0j10UbkQxHXgK61R98/dEslXgk=",
+        "lastModified": 1795110858,
+        "narHash": "sha256-mTPbhlfpUrwwzWO8/qkNcJIMchMByoYmADAKC1UIeiU=",
         "owner": "airRnot1106",
         "repo": "agenput-skills-nix",
-        "rev": "d74ce8575a5946c899bf2396d8c4b3bf8c95909d",
+        "rev": "6f4a0247e583539271415c47e37b1e89a5852d50",
         "type": "github"
       },
       "original": {
