@@ -49,11 +49,11 @@
     "airrnot-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1795185560,
-        "narHash": "sha256-PSP0k8nM8sV8pxP3F9HIB/SQakNAWTujwZ+8hZuh8E0=",
+        "lastModified": 1795245576,
+        "narHash": "sha256-wuO61V2JJVja78lOdnCnByebUBsJMzxbAJsdn5tKeiU=",
         "owner": "airRnot1106",
         "repo": "skills",
-        "rev": "6fe1aa1c7eb944cfa4c57728202b1feb9e5d2b70",
+        "rev": "e78d023b408dcf1835646076d763ff171ba0ad74",
         "type": "github"
       },
       "original": {
